@@ -103,15 +103,20 @@ public class Shorty extends Creature implements AbleToJoinStory {
 
     @Override
     public void leaveCar(Car car) {
+        class PassengerLeaving{
+            void leavePassengerSeat(Car car){
+                car.setFreeSeats(car.getFreeSeats() + 1);
+                car.getDriver().inWhatCar = null;
+            }
+        }
+        PassengerLeaving passengerLeaving = new PassengerLeaving();
+
         if (car.getDriver().getName().equals(name)) {
             car.setDriver(null);
-            car.setFreeSeats(car.getFreeSeats() + 1);
+            passengerLeaving.leavePassengerSeat(car);
             System.out.println(name + " вышел с водительского места");
-            inWhatCar = null;
-
         } else if (inWhatCar.equals(car)) {
-            car.setFreeSeats(car.getFreeSeats() + 1);
-            inWhatCar = null;
+            passengerLeaving.leavePassengerSeat(car);
             System.out.println(name + " вышел с пассажирского места");
         } else {
             System.out.println(name + " и так не в машине.");
@@ -175,6 +180,6 @@ public class Shorty extends Creature implements AbleToJoinStory {
     }
     public void learnHowToDrive(){
         this.canDrive = true;
-        System.out.println(this.toString() + " теперь умеет водить машину");
+        System.out.println(this.getName() + " теперь умеет водить машину");
     }
 }
